@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+        <h1>Seguimiento de cursos</h1>
+        
+        <input type="text" placeholder="Ingresa el curso..." v-model="title">
+        <input id="number" type="number" placeholder="Ingresa su duracion..." v-model="time">
+        <label for="number">horas</label>
+        <button @click="addCourseTrack()">Añadir</button>
+
+        <h2>Lista de cursos</h2>
+
+        <ul v-show="totalTime">
+            <li v-for="i,p in courses">
+                {{ i.key + ' - ' + i.value + ' horas | '}}
+                <span @click="courses.splice(p,1)" style="color:red; cursor:pointer"> eliminar </span>
+            </li>
+        </ul>
+        
+        <h3 v-show="totalTime">Total tiempo</h3>
+
+        <span>{{ totalTime ? 'Llevas estudiando ' + totalTime + ' horas' : 'No tienes cursos registrados'}}</span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="./app.js"></script>
+
+</body>
+</html>
