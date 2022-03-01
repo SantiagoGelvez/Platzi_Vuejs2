@@ -25,7 +25,7 @@
         <ul v-show="totalTime">
             <li v-for="i,p in courses">
                 {{ i.key + ' - ' + i.value + ' horas | '}}
-                <span @click="courses.splice(p,1)" style="color:red; cursor:pointer"> eliminar </span>
+                <span @click="courses.splice(p,1)" style="color:red; cursor:pointer; font-size: small;"> eliminar </span>
             </li>
         </ul>
         
