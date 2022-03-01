@@ -11,6 +11,10 @@ new Vue({
 
     methods:{
         addCourseTrack(){
+            if(!this.title || !this.time){
+                console.log(this.title, this.time)
+                return 0
+            }
             this.courses.push({ key:this.title, value:this.time})
             this.title = '';
             this.time = '';
@@ -19,10 +23,6 @@ new Vue({
 
     computed:{
         totalTime(){
-            // let total = 0
-            // for (i in this.courses) {
-            //     total = Number(this.courses[i].value) + total;
-            // }
             if(!this.courses.length){
                 return 0
             }
