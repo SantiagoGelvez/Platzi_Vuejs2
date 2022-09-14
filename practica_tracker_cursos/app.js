@@ -1,33 +1,32 @@
 new Vue({
     el: app,
-    
+
     data() {
-        return{
+        return {
             courses: [],
-            title: '',
-            time: ''
-        }
+            title: "",
+            time: "",
+        };
     },
 
-    methods:{
-        addCourseTrack(){
-            if(!this.title || !this.time){
-                console.log(this.title, this.time)
-                return 0
+    computed: {
+        totalTime() {
+            if (!this.courses.length) {
+                return 0;
             }
-            this.courses.push({ key:this.title, value:this.time})
-            this.title = '';
-            this.time = '';
+            return this.courses.reduce((a, b) => a + Number(b.value), 0);
         },
     },
 
-    computed:{
-        totalTime(){
-            if(!this.courses.length){
-                return 0
+    methods: {
+        addCourseTrack() {
+            if (!this.title || !this.time) {
+                console.log(this.title, this.time);
+                return 0;
             }
-            
-            return this.courses.reduce((a,b) => a + Number(b.value), 0);
-        }
-    }
-})
+            this.courses.push({ key: this.title, value: this.time });
+            this.title = "";
+            this.time = "";
+        },
+    },
+});
