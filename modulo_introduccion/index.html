@@ -12,11 +12,17 @@
 
     <body>
         <div id="app" v-bind:style="{background: '#' + color}">
-            <coin-detail v-on:change-color="updateColor" v-bind:coin="btc"></coin-detail>
-            <coin-detail v-bind:coin="btc" v-on:change-color="updateColor"></coin-detail>
-            <coin-detail v-bind:coin="btc" v-on:change-color="updateColor"></coin-detail>
-            <coin-detail v-bind:coin="btc" v-on:change-color="updateColor"></coin-detail>
+            <coin-detail v-on:change-color="updateColor" v-bind:coin="btc">
+                <template v-slot:text>
+                    <p>Este es un texto inyectado en el componente a través del slot</p>
+                </template>
 
+                <template v-slot:link>
+                    <a href="#">Link!</a>
+                </template>
+            </coin-detail>
+
+            <coin-detail v-on:change-color="updateColor" v-bind:coin="btc"> </coin-detail>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>

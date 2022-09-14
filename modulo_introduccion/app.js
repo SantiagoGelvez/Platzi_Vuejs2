@@ -1,11 +1,11 @@
-Vue.component('CoinDetail', {
-    props: ['coin'],
+Vue.component("CoinDetail", {
+    props: ["coin"],
 
     data() {
         return {
             showPrices: false,
             value: 0,
-        }
+        };
     },
 
     computed: {
@@ -22,16 +22,24 @@ Vue.component('CoinDetail', {
     },
 
     watch: {
-        showPrices(oldValue, newValue){
-            this.$emit('change-color', newValue ? '45F1A9' : false)
-        }
+        showPrices(oldValue, newValue) {
+            this.$emit("change-color", newValue ? "45F1A9" : false);
+        },
     },
 
     methods: {
         toggleShowPrices() {
             this.showPrices = !this.showPrices;
-            this.$emit('change-color', this.showPrices ? '45F1A9' : false)
-        }
+            this.$emit("change-color", this.showPrices ? "45F1A9" : false);
+        },
+    },
+
+    created() {
+        console.log("Created CoinDetail..");
+    },
+
+    mounted() {
+        console.log("Mounted CoinDetail..");
     },
 
     template: `
@@ -50,13 +58,16 @@ Vue.component('CoinDetail', {
         <input type="number" v-model="value" />
         <span>{{ convertedValue }}</span>
 
+        <slot name="text"></slot>
+        <slot name="link"></slot>
+
         <ul v-show="showPrices">
             <li class="uppercase" v-bind:class="{orange: p.value == coin.price, green: p.value > coin.price, red: p.value < coin.price}" v-for="(p, i) in coin.pricesWithDays" v-bind:key="p.day">{{ i + 1 }} - {{ p.day }} - {{ p.value }}</li>
         </ul>
 
     </div>
-    `
-})
+    `,
+});
 
 new Vue({
     el: app,
@@ -83,10 +94,17 @@ new Vue({
         };
     },
 
-
     methods: {
         updateColor(color) {
             this.color = color || this.color.split("").reverse().join("");
         },
+    },
+
+    created() {
+        console.log("Created..");
+    },
+
+    mounted() {
+        console.log("Mounted..");
     },
 });
