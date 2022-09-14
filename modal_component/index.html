@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>Modal Component</title>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+
+    <body>
+        <div class="body-container">
+            <div id="app">
+                <button type="button" class="btn btn-outline-primary btn-sm button-font" v-on:click="toggleModal">👋 ¡Hey! Ptsss 🤭</button>
+    
+                <modal v-if="modalState" v-on:close-modal="toggleModal">
+                    <template v-slot:title>
+                        <h3 class="modal-title">{{ title }}</h3>
+                    </template>
+
+                    <template v-slot:body>
+                        <span class="modal-body-text">{{ text }}</span>
+                        <img src="./assets/personal-goal.svg" alt="Personal Goals" class="modal-body-img"></img>
+                    </template>
+                </modal>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>
