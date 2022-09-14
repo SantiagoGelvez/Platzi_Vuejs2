@@ -14,16 +14,23 @@ Vue.component('CoinDetail', {
         },
 
         convertedValue() {
-            if (!this.coin.value) {
+            if (!this.value) {
                 return 0;
             }
-            return this.coin.value / this.coin.price;
+            return this.value / this.coin.price;
         },
+    },
+
+    watch: {
+        showPrices(oldValue, newValue){
+            this.$emit('change-color', newValue ? '45F1A9' : false)
+        }
     },
 
     methods: {
         toggleShowPrices() {
             this.showPrices = !this.showPrices;
+            this.$emit('change-color', this.showPrices ? '45F1A9' : false)
         }
     },
 
@@ -40,7 +47,7 @@ Vue.component('CoinDetail', {
             <span v-on:click="toggleShowPrices()"> {{ showPrices ? "🐵" : "🙈" }} </span>
         </h1>
 
-        <input type="number" v-model="coin.value" />
+        <input type="number" v-model="value" />
         <span>{{ convertedValue }}</span>
 
         <ul v-show="showPrices">
@@ -71,7 +78,6 @@ new Vue({
                     { day: "Sábado", value: 10000 },
                     { day: "Domingo", value: 10200 },
                 ],
-                value: 0,
             },
             color: "f4f4f4",
         };
@@ -79,9 +85,8 @@ new Vue({
 
 
     methods: {
-        /* toggleShowPrices() {
-            this.showPrices = !this.showPrices;
-            this.color = this.color.split("").reverse().join("");
-        }, */
+        updateColor(color) {
+            this.color = color || this.color.split("").reverse().join("");
+        },
     },
 });
