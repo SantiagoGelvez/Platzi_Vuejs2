@@ -97,20 +97,54 @@
                     ])
                 "
             />
+
+            <h3 class="text-xl my-10">Mejores Ofertas de Cambio</h3>
+            <table>
+                <tr
+                    v-for="m in markets"
+                    :key="`${m.exchangeId} - ${m.priceUsd}`"
+                    class="border-b"
+                >
+                    <td>
+                        <b>{{ m.exchangeId }}</b>
+                    </td>
+                    <td>{{ m.priceUsd | dollar }}</td>
+                    <td>{{ m.baseSymbol }} / {{ m.quoteSymbol }}</td>
+                    <td>
+                        <px-button
+                            :isLoading="m.isLoading || false"
+                            v-if="!m.url"
+                            @custom-click="getWebSite(m)"
+                        >
+                            <span v-show="!m.isLoading">Obtener link</span>
+                        </px-button>
+                        <a
+                            v-else
+                            class="hover:underline text-green-600"
+                            target="_blanck"
+                            >{{ m.url }}</a
+                        >
+                    </td>
+                </tr>
+            </table>
         </template>
     </div>
 </template>
 
 <script>
 import api from "@/api"
+import PxButton from "@/components/PxButton"
 
 export default {
     name: "CoinDetail",
+
+    components: { PxButton },
 
     data() {
         return {
             asset: {},
             history: [],
+            markets: [],
             isLoading: false,
         }
     },
@@ -144,13 +178,32 @@ export default {
     },
 
     methods: {
+        getWebSite(exchange) {
+            this.$set(exchange, "isLoading", true)
+            return api
+                .getExchange(exchange.exchangeId)
+                .then((res) => {
+                    this.$set(
+                        exchange,
+                        "url",
+                        res ? res.exchangeUrl : "Url not detected"
+                    )
+                })
+                .finally(() => this.$set(exchange, "isLoading", false))
+        },
+
         getCoin() {
             this.isLoading = true
             const id = this.$route.params.id
-            Promise.all([api.getAsset(id), api.getAssetHistory(id)])
-                .then(([asset, history]) => {
+            Promise.all([
+                api.getAsset(id),
+                api.getAssetHistory(id),
+                api.getMarkets(id),
+            ])
+                .then(([asset, history, markets]) => {
                     this.asset = asset
                     this.history = history
+                    this.markets = markets
                 })
                 .finally(() => (this.isLoading = false))
         },
