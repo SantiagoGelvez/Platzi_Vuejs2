@@ -1,7 +1,11 @@
 const url = "https://api.coincap.io/v2"
 
-function getAssets() {
-    return fetch(`${url}/assets?limit=20`)
+function getAssets(lim = null) {
+    let limit = ""
+    if (lim) {
+        limit = `?limit=${lim}`
+    }
+    return fetch(`${url}/assets${limit}`)
         .then((res) => res.json())
         .then((res) => res.data)
 }

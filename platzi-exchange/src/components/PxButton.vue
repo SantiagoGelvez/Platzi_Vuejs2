@@ -8,7 +8,9 @@
             :color="'#68d391'"
             :size="8"
         ></beat-loader>
-        <slot></slot>
+        <div v-show="!isLoading">
+            <slot></slot>
+        </div>
     </button>
 </template>
 
