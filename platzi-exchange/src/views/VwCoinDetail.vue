@@ -132,12 +132,15 @@
                         >
                             <slot>Obtener link</slot>
                         </px-button>
-                        <a
-                            v-else
-                            class="hover:underline text-green-600"
-                            target="_blanck"
-                            >{{ m.url }}</a
-                        >
+                        <div v-else>
+                            <a
+                                class="hover:underline text-green-600"
+                                :target="m.url === urlNoDetected ? '' : '_blanck'"
+                                :href="m.url === urlNoDetected ? '#' : m.url"
+                                >{{ m.url }}</a
+                            >
+                            <button @click="hideWebsite(m)" class="text-red-500 ml-1 text-xs">ocultar</button>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -162,6 +165,7 @@ export default {
             isLoading: false,
             fromUsd: true,
             convertValue: null,
+            urlNoDetected: "Url no detected"
         }
     },
 
@@ -218,10 +222,14 @@ export default {
                     this.$set(
                         exchange,
                         "url",
-                        res ? res.exchangeUrl : "Url not detected"
+                        res ? res.exchangeUrl : this.urlNoDetected
                     )
                 })
                 .finally(() => this.$set(exchange, "isLoading", false))
+        },
+
+        hideWebsite(exchange) {
+            this.$set(exchange, "url", null)
         },
 
         getCoin() {
